@@ -1,0 +1,48 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Energy Comparison</title>
+  <style>
+    body { font-family: Arial, sans-serif; margin: 20px; }
+    table { border-collapse: collapse; width: 100%; margin-top: 20px; }
+    th, td { border: 1px solid #ccc; padding: 8px; text-align: left; }
+  </style>
+</head>
+<body>
+  <h1>Energy Comparison</h1>
+  <form method="post">
+    <label>
+      <input type="radio" name="energy_type" value="Electricity" checked> Electricity
+    </label>
+    <label>
+      <input type="radio" name="energy_type" value="Gas"> Gas
+    </label>
+    <br>
+    <label>Postal Code: <input type="text" name="postal_code" required></label>
+    <br>
+    <label>Annual Consumption (kWh): <input type="number" name="consumption" step="0.01" required></label>
+    <br>
+    <button type="submit">Compare</button>
+  </form>
+
+  {% if results %}
+  <table>
+    <tr>
+      <th>Supplier</th>
+      <th>Arbeitspreis (€/kWh)</th>
+      <th>Grundpreis (€)</th>
+      <th>Total Monthly (€)</th>
+    </tr>
+    {% for r in results %}
+    <tr>
+      <td>{{ r.name }}</td>
+      <td>{{ '%.3f' % r.arbeitspreis }}</td>
+      <td>{{ '%.2f' % r.grundpreis }}</td>
+      <td>{{ '%.2f' % r.total }}</td>
+    </tr>
+    {% endfor %}
+  </table>
+  {% endif %}
+</body>
+</html>
