@@ -1,5 +1,5 @@
 from flask import Flask, render_template, request
-from sample_data import SAMPLE_DATA
+from scraper import fetch_offers
 
 app = Flask(__name__)
 
@@ -14,7 +14,7 @@ def index():
         except ValueError:
             consumption = 0
         monthly_use = consumption / 12
-        offers = SAMPLE_DATA.get(energy_type, [])
+        offers = fetch_offers(energy_type, postal_code, consumption)
         for offer in offers:
             total = offer['grundpreis'] + offer['arbeitspreis'] * monthly_use
             results.append({
